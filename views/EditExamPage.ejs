@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<h1><%=title%></h1>
+<meta charset="ISO-8859-1">
+<title>Edit - <%=title%></title>
+    <style>
+    .collapsible {
+  font-size: 15px;
+}
+
+    </style>
+</head>
+<body>
+    <ul>
+        <%for(var q=0; q<questions.length; q++){
+            question = questions[q];
+            QAnswers = answers["Q"+question.qid];
+        %>
+            
+            <li><%=question.text%>
+                <div>
+                    <ul>
+                        <%for(var a=0; a<QAnswers.length; a++){%>
+                            <li>
+                                <form method="POST" action="/deleteanswer">
+                                    <input type="hidden" name="answer_id" value=<%=QAnswers[a].aid%>>
+                                    <%=QAnswers[a].text%><input type="submit" value="Delete Answer">
+                                </form>
+                            </li>
+                        <%}%>
+                    </ul>
+                </div>
+                <br>
+                <form method="POST" action="/answers/addanswer">
+                    Answer: <input type="text" name="answer_text" placeholder="Answer">
+                    <input type="hidden" name="questions_id" value=<%=question.qid%>>
+                    Correct: <input type="checkbox" name="isCorrect" checked>
+                    <input type="submit" value="Add">
+                </form>
+            </li>
+            <br><br>
+        <%}%>
+    </ul>
+    <form action="/questions/addquestion" method="POST">
+        <h3>Add Question</h3>
+        <input type="hidden" name="examid" value=<%=examid%>>
+        <input type="text" name="questiontext" placeholder="Question">
+        <input type="submit" value="Add Question">
+    </form>
+    <br><br>
+    <form action="" method="">
+        <input type="submit" value="Delete Exam">
+    </form>
+</body>
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+} 
+</script>

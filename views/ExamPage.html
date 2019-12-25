@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <h1>Good Luck!</h1>
+<meta charset="ISO-8859-1">
+<title>Exam Page</title>
+<script src="jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <%
+    for(var q=0; q<questions.length; q++){
+        var Question = questions[q]
+    %>
+    <div>
+        <form method="POST" action="/saveanswer" class="questionform">
+            <p>
+                <%=Question.QuestionText%>
+            </p>
+            <input type="hidden" name="questionID" value=<%=Question.QuestionID%>>
+            <input type="hidden" name="examID" value=<%=examid%>>
+            <%for(var a=0; a<Question.Answers.length; a++){
+                var Answer = Question.Answers[a]
+            %>
+                <input type="radio" name="useranswer" value=<%=Answer.answer_id%>> <%=Answer.text%><br>
+                
+            <%}%>
+            <input type="submit" value="Save">
+        </form>
+    </div>
+    <%
+    }
+    %>
+
+    <br><br>
+    <form method="POST" action="/submit">
+        <input type="submit" value="submit answers">
+    </form>
+</body>
+<script>
+    $(".questionform").submit(function(event) {
+        event.preventDefault();
+        var $inputs = $('#myForm :input');
+        var values = {};
+        $inputs.each(function() {
+            values[this.name] = $(this).val();
+        });
+        $.ajax({
+            url: "/saveanswer",
+            type: 'post',
+            dataType: 'json',
+            data: {
+                useranswer: values.useranswer,
+                questionID: values.questionID,
+                examID: values.examID
+            },
+            success: function(data) {
+                if(data.error){
+                    console.log(data.error)
+                }
+                else{
+                    alert("Saved")
+                }
+            }
+        });
+    });
+    
+</script>

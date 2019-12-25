@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="jquery-3.4.1.min.js"></script>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td><b>Email: <b></td>
+                <td><%=email%></td>
+            </tr>
+            <tr>
+                <td><b>Position: <b></td>
+                <td><%=job_text%></td>
+            </tr>
+             <%if(phone)%><tr><td><b>Phone: <b></td><td><%=phone%></td></tr>
+            <tr>
+                <form id="exams-form" action="/ApproveApplication", method="POST"></form>
+                    <% for(var i=0; i<exams.length; i++){ %>
+                    <td><input type="checkbox" name="exams[]" form="exams-form" value=<%=exams[i].examid%>><%=exams[i].title%></td>
+                    <%}%>
+                 </form>
+            </tr>  
+        </table><br>
+            Deadline:<input id="deadline" type="date" value=""><br>
+            <input form="exams-form" type="submit" name="submit" Value="Submit"/>
+        <script>
+            $("#deadline").val(new Date())
+            $.urlParam = function(name){
+                var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+                if (results==null) {
+                return null;
+                }
+                return decodeURI(results[1]) || 0;
+            }
+            $("#exams-form").submit(function(event) {
+                event.preventDefault();
+                if(!$("#deadline").val())return alert("You must specify a deadline")
+                deadline = Date.parse($("#deadline").val())
+                if(deadline < Date.now()) return alert("Date cant be in the past")
+                $('input[name="exams[]"]').each(function() {
+                    if($(this).prop("checked")){
+                        $.ajax({
+                            url: "/assignedexams/assign",
+                            type: 'post',
+                            dataType: 'json',
+                            data: {
+                                cand_id: $.urlParam('id'),
+                                exam_id: $(this).val(),
+                                deadline: Date.now() + deadline
+                            },
+                            success: function(data) {
+                                if(data.error){
+                                    console.log(data.error)
+                                }
+                                else{
+                                    alert("Assigned Exam !")
+                                }
+                            }
+                        });
+                    }
+                })
+            })
+        </script>
+    </body>
+    
+</html>

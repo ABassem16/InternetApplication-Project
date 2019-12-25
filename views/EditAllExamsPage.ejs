@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<h1>Exams List</h1>
+<meta charset="ISO-8859-1">
+<title>Edit Exams</title>
+<body>
+
+<table style="width: 15%;">
+    <%for(var i=0; i<exams.length; i++){%>
+        <tr><td><%=exams[i].title%></td><td><a href="/editexam?id=<%=exams[i].examid%>">Edit</a></td></tr>
+    <%}%>
+</table>
+
+<br>
+<form action="/exams/addexam" method="POST">
+    <b>Add Exam</b>
+    <br>Exam Name: <input type="text" name=title placeholder="Exam Title"><br>
+    <input type="submit" value="Add Exam">
+</form>
+</body>

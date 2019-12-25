@@ -1,0 +1,17 @@
+<form method="POST" action="/register" enctype="multipart/form-data">
+    Email:<br>
+    <input type="email" name=email><br>
+    Password:<br>
+    <input type="password" name=pass><br>
+    Phone:<br>
+    <input type="tel" name=phone><br>
+    Position:<br>
+    <select name=job>
+        <%for(var i=0; i<jobs.length; i++){%>
+            <option value=<%=jobs[i].pos_id%> ><%=jobs[i].text%></option>
+        <%}%>
+    </select><br>
+    CV:<br>
+    <input type="file" name=cv><br>
+    <input type="submit">
+</form>

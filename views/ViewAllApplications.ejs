@@ -1,0 +1,15 @@
+<html>
+<head>
+    <title>View Applications</title>
+</head>
+<body>
+    <h1>Applications</h1>
+    <ul>
+        <%for(var i=0; i<users.length; i++){%>
+            <li>
+                <%=users[i].position%> : <%=users[i].email%> : <a href="/viewapplication?id=<%=users[i].uid%>">View</a>
+            </li>
+        <%}%>
+    </ul>
+<br>
+</body>

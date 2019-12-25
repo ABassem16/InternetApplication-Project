@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Register page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form action="/register" method="post" enctype="multipart/form-data">
+            <div >
+                <h1>Register</h1>
+                <p>Please fill in this form to create an account.</p>
+                <hr>
+
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Enter Email" name="email" required>
+                <hr>
+                <label for="pass"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="pass" required>
+                 <hr>
+                <label for="phone"><b>Phone</b></label>
+                <input type="tel" placeholder="phone number" name="phone">
+                <hr>
+                <label for="job"><b>Job Position</b></label>
+                <select name=job>
+                <%for(var i=0; i<jobs.length; i++){%>
+                    <option value=<%=jobs[i].pos_id%> ><%=jobs[i].text%></option>
+                <%}%>
+                </select>
+                <hr>
+                <label for="cv"><b>CV File</b></label>
+                <input type="file" name=cv required>
+                <hr>
+                <button type="submit">Register</button>
+            </div>
+
+            <div class="container signin">
+                <p>Already have an account? <a href="/login">Sign in</a>.</p>
+            </div>
+        </form>
+        
+        
+    </body>
+</html>
